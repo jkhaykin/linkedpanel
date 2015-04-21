@@ -325,7 +325,7 @@ a:after {
    ========================================================================== */
 
 #headerwrap {
-	background: linear-gradient( rgba(0, 0, 0,0.6), rgba(0, 0, 0, 0.6) ), url('linkedin.jpg');
+	background: linear-gradient( rgba(0, 0, 0,0.6), rgba(0, 0, 0, 0.6) ), url('https://github.com/jkhaykin/linkedpanel/blob/master/app/assets/images/linkedin.jpg?raw=true');
 	margin-top: -50px;
 	padding-top:80px;
 	text-align:center;
