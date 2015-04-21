@@ -1,0 +1,12 @@
+<script>
+    function myConfirm() { 
+    	swal({title: "Are you sure?", text: "You will no longer follow this user.", type: "warning", showCancelButton: true, confirmButtonColor: 		"#DD6B55", confirmButtonText: "Yes, delete!", closeOnConfirm: true }, 
+    	function(isConfirm){   
+	      if (isConfirm) { 
+		    swal("Deleted!", "The user has been removed.", "success");
+		    $("#person-destroy<%= person.id %>").trigger('click');
+          } 
+	    }); 
+    };
+</script>
+<p><a href="javascript:myConfirm()">Delete</a></p>

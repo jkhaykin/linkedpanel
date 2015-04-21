@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LinkedPanel | Get Notified When LinkedIn Users Add A New Job To Their Profile</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="swal/sweet-alert.css">
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LinkedIn User and Connection Job Tracker">
+    <meta name="author" content="Jon Khaykin - jonkhaykin.com - http://twitter.com/jkhaykin">
+    <%= favicon_link_tag 'favicon.png' %>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    
+    <!-- Sweet Alert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.min.js"></script> 
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.css">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/icomoon.css">
+    <link href="assets/css/animate-custom.css" rel="stylesheet">
+
+
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+    
+    <script src="assets/js/jquery.min.js"></script>
+    
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<body data-spy="scroll" data-offset="0" data-target="#navbar-main">
+<div id="navbar-main">
+      <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <i class="fa fa-list-alt" style="font-size:30px; color:#0077B5;"></i>
+          </button>
+          <a class="navbar-brand hidden-xs hidden-sm" href="#home"><i class="fa fa-list-alt" style="font-size:18px; color:#3498db;"> Linked</i>Panel</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav" style="float:right">
+          <% if user_signed_in? %>
+          <li><a href="mailto:jon@linkedpanel.com">Contact Us</a></li>
+          <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+          <% else %>
+          <li><%= link_to "Sign in with LinkedIn", user_omniauth_authorize_path(:linkedin) %></li>
+          <% end %>         
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+</div>
+
+<%= yield %>
+
+<footer id="footer" style="text-align:center;padding-top:10px;">
+			<b>Made by <a style="color:#0077B5;line-decoration:none;" onclick="window.open('http://www.linkedin.com/in/khaykin'); window.open('http://www.twitter.com/jkhaykin');">Jon Khaykin</a></b>
+			<br>
+			<small>LinkedPanel is not endorsed by or affiliated with LinkedIn&trade;.</small>
+</footer>
+</body>
+</html>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-62095943-1', 'auto');
+  ga('send', 'pageview');
+
+</script>

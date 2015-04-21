@@ -1,0 +1,37 @@
+<div id="greywrap" class="indexwrap">
+<h1 style="padding-top:20px;">User Dashboard</h1>
+<div id="index-box">
+<% if @people.count == 0 %>
+  <h5>Click the Add LinkedIn User button below to get started <br>&darr;</h5>
+<% else %>
+  <% @people.each do |person| %>
+    <h3><%= link_to person.name, person.url, :target => "blank" %></h3>
+    Current Position: <b><%= person.headline %></b>
+    <p><%= link_to 'Delete', person, method: :delete, id: "person-destroy#{person.id}", data: {confirm: "Are you sure you want to remove #{person.name}?" }%></p>
+  <% end %>
+  <small>You will get an email when the users above update their job experience.</small>
+<% end %>
+<br>
+</div>
+<button type="button" id="modal-btn" class="btn btn-primary btn-lg btn-block indexbtn" data-toggle="modal" data-target="#myModal">
+  Add LinkedIn User
+</button>
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Follow LinkedIn User's Headline</h4>
+      </div>
+      <div class="modal-body">
+	      <%= render 'form' %>
+	  </div>
+   </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
+
+<% if error.present? %>
+  <script>swal("<%= error %>", "We could not find that user. Please try again.", "error");</script>
+<% end %>

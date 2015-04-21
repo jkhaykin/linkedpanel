@@ -1,0 +1,23 @@
+<%= form_for(@person) do |f| %>
+  <% if @person.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
+
+      <ul>
+      <% @person.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :url, "Enter the Linkedin user's public profile URL (including https://)." %><br>
+    <%= f.text_field :url, :placeholder => "https://www.linkedin.com/in/user", style: "width: 80%;" %>
+    <%= f.submit "Submit", :class => "btn btn-default", style: "background-color: #CACCCE;" %>
+    <br>
+    <div id="example">
+      <small><a>(How do I find the URL?)</a></small>
+      <div id="img-show"></div>
+    </div>
+  </div>
+<% end %>
