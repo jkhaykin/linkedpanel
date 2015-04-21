@@ -300,7 +300,7 @@ a:after {
 }
 
 #img-show {
-	content: url("url-example.png");
+	content: url("https://photos-3.dropbox.com/t/2/AAApGhnOUSLyIzq_eQebQkM0I70eU0ailos9RftWNe3hQw/12/140812814/png/1024x768/3/1429596000/0/2/url-example.png/CI7EkkMgASgB/VOr25QebffSCl0NFpGWEgR8Qfg5EeSVj5WvS68WF7Bg");
 	display: none;
 }
 
@@ -325,7 +325,7 @@ a:after {
    ========================================================================== */
 
 #headerwrap {
-	background: linear-gradient( rgba(0, 0, 0,0.6), rgba(0, 0, 0, 0.6) ), url('https://github.com/jkhaykin/linkedpanel/blob/master/app/assets/images/linkedin.jpg?raw=true');
+	background: linear-gradient( rgba(0, 0, 0,0.6), rgba(0, 0, 0, 0.6) ), url('https://photos-4.dropbox.com/t/2/AAANWkJBdBsK4RpS1t3mvsNd1LpMXVxvqXTszCVWlWvikA/12/140812814/jpeg/1024x768/3/1429596000/0/2/linkedin.jpg/CI7EkkMgASgB/f_i-g-99ABjguQM_INCsQ8tBS6Lxo6_17nNDBdwAZTw');
 	margin-top: -50px;
 	padding-top:80px;
 	text-align:center;
@@ -678,5 +678,8 @@ a:after {
 @media screen and (max-width:869px) {
     #index-box {
 	    width: 80%;
+    }
+    .below {
+        outline-offset: 0px;
     }
 }
