@@ -28,6 +28,7 @@ class PeopleController < ApplicationController
     @person.user = current_user 
     begin
       data = Nokogiri::HTML(open(@person.url))
+      @name = data.css(".full-name").text
     rescue ActiveRecord::RecordNotFound
     # handle not found error
     rescue ActiveRecord::ActiveRecordError
@@ -38,20 +39,19 @@ class PeopleController < ApplicationController
     # handle everything else
     end
     
-    if data.nil?
-      redirect_to people_path, error: "Oops!"
-    else
-    @name = data.css(".full-name").text
+    if @name.present?
     data.css('header').each_with_index do |per, i|
       per.css('h4').each do |h4|
         if i == 0
           @headline = "#{h4.text} at #{h4.next_element.text}"
+          @duration = data.at_css('.experience-date-locale').text[/[^(]+/]
         end
       end
     end
-    @duration = "#{data.at_css('.experience-date-locale').text[/[^(]+/]}"
-    @person.update(name: @name, headline: @headline, duration: @duration)
+    @person.update_attributes(name: @name, headline: @headline, duration: @duration)
     @person.save
+    else
+    redirect_to people_path, error: "Oops!"
     end
   end
 
