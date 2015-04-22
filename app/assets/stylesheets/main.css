@@ -300,7 +300,7 @@ a:after {
 }
 
 #img-show {
-	content: url("https://photos-3.dropbox.com/t/2/AAApGhnOUSLyIzq_eQebQkM0I70eU0ailos9RftWNe3hQw/12/140812814/png/1024x768/3/1429596000/0/2/url-example.png/CI7EkkMgASgB/VOr25QebffSCl0NFpGWEgR8Qfg5EeSVj5WvS68WF7Bg");
+	content: url("http://i.imgur.com/IzAxxKt.jpg");
 	display: none;
 }
 
@@ -320,12 +320,17 @@ a:after {
 	cursor: pointer;
 }
 
+
+.why-made {
+	color: black;
+}
+
 /* ==========================================================================
    Wrap Sections
    ========================================================================== */
 
 #headerwrap {
-	background: linear-gradient( rgba(0, 0, 0,0.6), rgba(0, 0, 0, 0.6) ), url('https://photos-4.dropbox.com/t/2/AAANWkJBdBsK4RpS1t3mvsNd1LpMXVxvqXTszCVWlWvikA/12/140812814/jpeg/1024x768/3/1429596000/0/2/linkedin.jpg/CI7EkkMgASgB/f_i-g-99ABjguQM_INCsQ8tBS6Lxo6_17nNDBdwAZTw');
+	background: linear-gradient( rgba(0, 0, 0,0.6), rgba(0, 0, 0, 0.6) ), url('http://i.imgur.com/PfXCuNy.jpg');
 	margin-top: -50px;
 	padding-top:80px;
 	text-align:center;

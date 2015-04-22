@@ -6,7 +6,7 @@
 <% else %>
   <% @people.each do |person| %>
     <h3><%= link_to person.name, person.url, :target => "blank" %></h3>
-    Current Position: <b><%= person.headline %></b>
+    Current Position: <b><%= person.headline %></b> | <b><%= person.duration %></b>
     <p><%= link_to 'Delete', person, method: :delete, id: "person-destroy#{person.id}", data: {confirm: "Are you sure you want to remove #{person.name}?" }%></p>
   <% end %>
   <small>You will get an email when the users above update their job experience.</small>

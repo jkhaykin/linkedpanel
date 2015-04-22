@@ -38,7 +38,7 @@ class PeopleController < ApplicationController
     # handle everything else
     end
     
-    if data.blank?
+    if data.nil?
       redirect_to people_path, error: "Oops!"
     else
     @name = data.css(".full-name").text
@@ -49,7 +49,8 @@ class PeopleController < ApplicationController
         end
       end
     end
-    @person.update(name: @name, headline: @headline)
+    @duration = "#{data.at_css('.experience-date-locale').text[/[^(]+/]}"
+    @person.update(name: @name, headline: @headline, duration: @duration)
     @person.save
     end
   end
@@ -65,7 +66,7 @@ class PeopleController < ApplicationController
     end
 
     def person_params
-      params.require(:person).permit(:name, :url)
+      params.require(:person).permit(:name, :url, :duration)
     end
     
     def template_not_found

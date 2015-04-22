@@ -11,23 +11,24 @@ desc "import Linkedin current job"
       per.css('h4').each do |h4|
         if i == 0
           @headline = "#{h4.text} at #{h4.next_element.text}"
+          @duration = "#{data.at_css('.experience-date-locale').text[/[^(]+/]}"
         end
       end
     end
-      if person.headline != @headline
+      if person.headline != @headline or person.duration != @duration
         message = {  
-          :subject=> "#{person.name} Has An Updated Linkedin Headline",  
-          :from_name=> "Headlinked | Linkedin Headline Checker",  
-          :text=>"#{person.name}'s updated Linkedin headline is: #{@headline}",  
+          :subject=> "LinkedPanel: #{person.name} Has An Updated Job on Linkedin",  
+          :from_name=> "LinkedPanel | Linkedin Job Notifier",  
+          :text=>"#{person.name}'s updated job is: #{@headline} | #{@duration}",  
           :to=>[  
           {  
           	:email=> "#{User.find(person.user_id).email}"
           }  
           	], 
-          :from_email=>"jon@jonkhaykin.com",
-          :html=>"#{person.name}'s updated Linkedin healine is: <h3><a href='#{person.url}'>#{@headline}.</a></h3>"
+          :from_email=>"jon@linkedpanel.com",
+          :html=>"#{person.name}'s updated job is: <h3><a href='#{person.url}'>#{@headline} | #{@duration}</a></h3>"
           } 
-          person.update(headline: @headline)
+          person.update(headline: @headline, duration: @duration)
           person.save
           sending = m.messages.send message  
           puts "#{sending} #{person.name} sent to #{User.find(person.user_id).email}"
