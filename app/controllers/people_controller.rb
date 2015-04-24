@@ -25,8 +25,8 @@ class PeopleController < ApplicationController
 
   def create
     @person = Person.new(person_params)
-    @person.user = current_user 
-    begin
+    @person.user = current_user
+    if @person.url.include?("linkedin") and @person.url.include?("https")
       data = Nokogiri::HTML(open(@person.url))
       @name = data.css(".full-name").text
       data.css('header').each_with_index do |per, i|
@@ -37,18 +37,11 @@ class PeopleController < ApplicationController
         end
       end
     end
-    rescue ActiveRecord::RecordNotFound
-    # handle not found error
-    rescue ActiveRecord::ActiveRecordError
-    # handle other ActiveRecord errors
-    rescue # StandardError
-    # handle most other errors
-    rescue Exception
-    # handle everything else
+      @person.update_attributes(name: @name, headline: @headline, duration: @duration)
+      @person.save
+    else
+      redirect_to people_path, error: "Oops!"
     end
-    
-    @person.update_attributes(name: @name, headline: @headline, duration: @duration)
-    @person.save
   end
 
   def destroy
