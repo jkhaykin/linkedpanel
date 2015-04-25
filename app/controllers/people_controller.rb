@@ -2,10 +2,10 @@ class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   rescue_from ActionView::MissingTemplate, :with => :template_not_found
-  
-  require 'nokogiri'
+
   require 'open-uri'
   require 'rake'
+  require 'linkedin-scraper'
 
   respond_to :html
 
@@ -26,17 +26,15 @@ class PeopleController < ApplicationController
   def create
     @person = Person.new(person_params)
     @person.user = current_user
+    @headline = []
+    @duration = []
     if @person.url.include?("linkedin") and @person.url.include?("https")
-      data = Nokogiri::HTML(open(@person.url))
-      @name = data.css(".full-name").text
-      data.css('header').each_with_index do |per, i|
-      per.css('h4').each do |h4|
-        if i == 0
-          @headline = "#{h4.text} at #{h4.next_element.text}"
-          @duration = data.at_css('.experience-date-locale').text[/[^(]+/]
-        end
+      profile = Linkedin::Profile.get_profile("#{@person.url}")
+      @name = profile.name
+      profile.current_companies.each do |position|
+        @headline += ["#{position[:title]} at #{position[:company]}"]
+        @duration += ["#{position[:start_date]} - Present"]
       end
-    end
       @person.update_attributes(name: @name, headline: @headline, duration: @duration)
       @person.save
     else

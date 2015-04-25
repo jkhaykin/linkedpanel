@@ -6,33 +6,32 @@ desc "import Linkedin current job"
     
     m = Mandrill::API.new('No69LvpEhHWKdVAhdQE_fQ')
     Person.all.each do |person|
-    data = Nokogiri::HTML(open(person.url))
-    data.css('header').each_with_index do |per, i|
-      per.css('h4').each do |h4|
-        if i == 0
-          @headline = "#{h4.text} at #{h4.next_element.text}"
-          @duration = "#{data.at_css('.experience-date-locale').text[/[^(]+/]}"
-        end
+      @headline = []
+      @duration = []
+      profile = Linkedin::Profile.get_profile("#{person.url}")
+      @name = profile.name
+      profile.current_companies.each do |position|
+        @headline += ["#{position[:title]} at #{position[:company]}"]
+        @duration += ["#{position[:start_date]} - Present"]
       end
-    end
-      if person.headline != @headline or person.duration != @duration
+      
+      if @headline == person.headline or @duration != person.duration
         message = {  
-          :subject=> "LinkedPanel: #{person.name} Has An Updated Job on Linkedin",  
+          :subject=> "LinkedPanel: #{person.name} has an updated job",  
           :from_name=> "LinkedPanel | Linkedin Job Notifier",  
-          :text=>"#{person.name}'s updated job is: #{@headline} | #{@duration}",  
+          :text=>"#{person.name}'s updated job profile is: #{@headline} | #{@duration}",  
           :to=>[  
           {  
-          	:email=> "#{User.find(person.user_id).email}"
+          	:email=> "jkaykin@gmail.com"
           }  
           	], 
           :from_email=>"jon@linkedpanel.com",
-          :html=>"#{person.name}'s updated job is: <h3><a href='#{person.url}'>#{@headline} | #{@duration}</a></h3>"
+          :html=>"#{person.name}'s updated job profile is: <h3><a href='#{person.url}'>#{@headline.each {|job| puts job }} | #{@duration.each {|date| puts date}}</a></h3>"
           } 
-          person.update(headline: @headline, duration: @duration)
+          person.update_attributes(name: @name, headline: @headline, duration: @duration)
           person.save
-          sending = m.messages.send message  
+          sending = m.messages.send message
           puts "#{sending} #{person.name} sent to #{User.find(person.user_id).email}"
-      else
       end
     end
 end

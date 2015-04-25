@@ -22,5 +22,6 @@ module LinkedinHl
     require 'nokogiri'
     require 'open-uri'
     require 'rake'
+    require 'linkedin-scraper'
   end
 end
