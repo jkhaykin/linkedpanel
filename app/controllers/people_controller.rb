@@ -5,7 +5,8 @@ class PeopleController < ApplicationController
 
   require 'open-uri'
   require 'rake'
-  require 'linkedin-scraper'
+  require 'httparty'
+  require 'json'
 
   respond_to :html
 
@@ -26,16 +27,12 @@ class PeopleController < ApplicationController
   def create
     @person = Person.new(person_params)
     @person.user = current_user
-    @headline = []
-    @duration = []
+    @search = HTTParty.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyBMHffLpqCs10zm8Q8r82uWFNb3KuAW8_k&cx=002391661074757575141:aca-rco0sas&q=#{@person.url}", :verify => false)
+    @json = JSON.parse(@search.body)
     if @person.url.include?("linkedin") and @person.url.include?("https")
-      profile = Linkedin::Profile.get_profile("#{@person.url}")
-      @name = profile.name
-      profile.current_companies.each do |position|
-        @headline += ["#{position[:title]} at #{position[:company]}"]
-        @duration += ["#{position[:start_date]} - Present"]
-      end
-      @person.update_attributes(name: @name, headline: @headline, duration: @duration)
+      @name = @json['items'][0]['pagemap']['hcard'][0]['fn']
+      @headline = @json['items'][0]['pagemap']['hcard'][0]['title']
+      @person.update_attributes(name: @name, headline: @headline)
       @person.save
     else
       redirect_to people_path, error: "Oops!"
@@ -45,6 +42,9 @@ class PeopleController < ApplicationController
   def destroy
     @person.destroy
     respond_with(@person)
+  end
+  
+  def down
   end
 
   private

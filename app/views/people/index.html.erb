@@ -1,18 +1,12 @@
 <div id="greywrap" class="indexwrap">
-<h1 style="padding-top:20px;">User Dashboard</h1><small><a id="show-all" style="cursor:pointer;">Show/hide all current positions</a></small>
+<h1 style="padding-top:20px;">User Dashboard</h1>
 <div id="index-box">
 <% if @people.count == 0 %>
   <h5>Click the Add LinkedIn User button below to get started <br>&darr;</h5>
 <% else %>
   <% @people.each do |person| %>
     <h3><%= link_to person.name, person.url, :target => "blank" %></h3>
-    <% person.headline.zip(person.duration).each do |job, date| %>
-      <% if person.headline[0] == job %>
-        <div class="current-position">Current Position: <b><%= job %></b> | <b><%= date %></b></div>
-      <% else %>
-        <div class="current-position-hide">Other Position: <b><%= job %></b> | <b><%= date %></b></div>
-      <% end %>
-    <% end %>
+    <h5><%= person.headline %></h5>
     <p><%= link_to 'Delete', person, method: :delete, id: "person-destroy#{person.id}", data: {confirm: "Are you sure you want to remove #{person.name}?" }%></p>
   <% end %>
   <small>You will get an email when the users above update their job experience.</small>
@@ -41,9 +35,3 @@
 <% if error.present? %>
   <script>swal("<%= error %>", "We could not find that user. Please try again.", "error");</script>
 <% end %>
-
-<script>
-$("#show-all").click(function(){
-    $(".current-position-hide").toggle(250);
-});
-</script>

@@ -11,8 +11,8 @@
     </div>
   <% end %>
   <div class="field">
-    <%= f.label :url, "Enter the Linkedin user's public profile URL (including https://)." %><br>
-    <%= f.text_field :url, :placeholder => "https://www.linkedin.com/in/user", style: "width: 80%;" %>
+    <%= f.label :url, "Enter the Linkedin user's public profile URL." %><br>
+    <%= f.text_field :url, :placeholder => "https://www.linkedin.com/in/user", style: "width: 80%;", value: "https://linkedin.com/in/" %>
     <%= f.submit "Submit", :class => "btn btn-default", style: "background-color: #CACCCE;" %>
     <br>
     <div id="example">
