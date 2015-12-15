@@ -7,6 +7,7 @@ class PeopleController < ApplicationController
   require 'rake'
   require 'httparty'
   require 'json'
+  require 'nokogiri'
 
   respond_to :html
 
@@ -27,11 +28,12 @@ class PeopleController < ApplicationController
   def create
     @person = Person.new(person_params)
     @person.user = current_user
-    @search = HTTParty.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyBMHffLpqCs10zm8Q8r82uWFNb3KuAW8_k&cx=002391661074757575141:aca-rco0sas&q=#{@person.url}", :verify => false)
-    @json = JSON.parse(@search.body)
     if @person.url.include?("linkedin") and @person.url.include?("https")
-      @name = @json['items'][0]['pagemap']['hcard'][0]['fn']
-      @headline = @json['items'][0]['pagemap']['hcard'][0]['title']
+      @search = HTTParty.get("https://www.google.com/search?q=#{@person.url}", :verify => false)
+      @my_data = @search.parsed_response
+      @page = Nokogiri::HTML(@my_data)
+      @name = @page.css("h3 a")[0].children.text.split(" |")[0]
+      @headline = @page.css(".f")[0].children.text.split("-")[1][1..-1]
       @person.update_attributes(name: @name, headline: @headline)
       @person.save
     else
@@ -43,7 +45,7 @@ class PeopleController < ApplicationController
     @person.destroy
     respond_with(@person)
   end
-  
+
   def down
   end
 
@@ -55,7 +57,7 @@ class PeopleController < ApplicationController
     def person_params
       params.require(:person).permit(:name, :url, :duration)
     end
-    
+
     def template_not_found
       redirect_to root_path
     end
